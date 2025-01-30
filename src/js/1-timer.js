@@ -3,7 +3,6 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-
 const dateInput = document.getElementById('datetime-picker');
 const startButton = document.querySelector('[data-start]');
 const daysSpan = document.querySelector('[data-days]');
@@ -13,7 +12,6 @@ const secondsSpan = document.querySelector('[data-seconds]');
 
 let userSelectedDate = null;
 let timerInterval = null;
-
 
 const options = {
   enableTime: true,
@@ -25,8 +23,8 @@ const options = {
 
     if (selectedDate <= new Date()) {
       iziToast.error({
-        title: 'Ошибка',
-        message: 'Выберите дату в будущем',
+        title: 'Error',
+        message: 'Choose the date in the future',
         position: 'topRight',
       });
       startButton.disabled = true;
@@ -38,9 +36,7 @@ const options = {
   },
 };
 
-
 flatpickr(dateInput, options);
-
 
 function startTimer() {
   if (!userSelectedDate) return;
@@ -65,14 +61,12 @@ function startTimer() {
   }, 1000);
 }
 
-
 function updateTimerDisplay(days, hours, minutes, seconds) {
   daysSpan.textContent = String(days).padStart(2, '0');
   hoursSpan.textContent = String(hours).padStart(2, '0');
   minutesSpan.textContent = String(minutes).padStart(2, '0');
   secondsSpan.textContent = String(seconds).padStart(2, '0');
 }
-
 
 function convertMs(ms) {
   const second = 1000;
@@ -87,6 +81,5 @@ function convertMs(ms) {
     seconds: Math.floor((((ms % day) % hour) % minute) / second),
   };
 }
-
 
 startButton.addEventListener('click', startTimer);
