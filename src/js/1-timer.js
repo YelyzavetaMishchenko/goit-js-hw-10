@@ -3,7 +3,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-// Элементы интерфейса
+
 const dateInput = document.getElementById('datetime-picker');
 const startButton = document.querySelector('[data-start]');
 const daysSpan = document.querySelector('[data-days]');
@@ -14,7 +14,7 @@ const secondsSpan = document.querySelector('[data-seconds]');
 let userSelectedDate = null;
 let timerInterval = null;
 
-// Настройки Flatpickr
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -38,10 +38,10 @@ const options = {
   },
 };
 
-// Инициализация Flatpickr
+
 flatpickr(dateInput, options);
 
-// Функция запуска таймера
+
 function startTimer() {
   if (!userSelectedDate) return;
 
@@ -65,7 +65,7 @@ function startTimer() {
   }, 1000);
 }
 
-// Функция обновления интерфейса таймера
+
 function updateTimerDisplay(days, hours, minutes, seconds) {
   daysSpan.textContent = String(days).padStart(2, '0');
   hoursSpan.textContent = String(hours).padStart(2, '0');
@@ -73,7 +73,7 @@ function updateTimerDisplay(days, hours, minutes, seconds) {
   secondsSpan.textContent = String(seconds).padStart(2, '0');
 }
 
-// Функция конвертации миллисекунд
+
 function convertMs(ms) {
   const second = 1000;
   const minute = second * 60;
@@ -88,5 +88,5 @@ function convertMs(ms) {
   };
 }
 
-// Назначаем обработчик на кнопку "Start"
+
 startButton.addEventListener('click', startTimer);
