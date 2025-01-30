@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Snackbar</title>
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-10/assets/2-snackbar-CnSN4tL2.css">
+    <title>Snackbar Generator</title>
+    <script type="module" crossorigin src="/goit-js-hw-10/2-snackbar.js"></script>
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-10/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-10/assets/vendor-BbbuE1sJ.js">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-10/assets/vendor-CZjNVMTf.css">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-10/assets/2-snackbar-D9Ecft1Y.css">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-10/assets/styles-CA0ItHaZ.css">
   </head>
   <body>
-    <div class="container">
-      <button onclick="window.location.href='index.html'">Go back</button>
-      <form id="form">
-        <label>
-          Delay (ms)
-          <input type="number" id="delay" required />
-        </label>
-        <fieldset>
-          <legend>State</legend>
-          <label>
-            <input type="radio" name="state" value="fulfilled" required />
-            Fulfilled
-          </label>
-          <label>
-            <input type="radio" name="state" value="rejected" required />
-            Rejected
-          </label>
-        </fieldset>
-        <button type="submit">Create notification</button>
-      </form>
-    </div>
+    <a href="./index.html" class="back-link">Go back</a>
 
-    <script src="js/2-snackbar.js"></script>
+    <form class="form">
+      <label>
+        Delay (ms)
+        <input type="number" name="delay" required />
+      </label>
+
+      <fieldset>
+        <legend>State</legend>
+        <label>
+          <input type="radio" name="state" value="fulfilled" required />
+          Fulfilled
+        </label>
+        <label>
+          <input type="radio" name="state" value="rejected" required />
+          Rejected
+        </label>
+      </fieldset>
+
+      <button type="submit">Create notification</button>
+    </form>
+
   </body>
 </html>
