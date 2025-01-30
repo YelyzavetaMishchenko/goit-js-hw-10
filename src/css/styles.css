@@ -1,9 +1,22 @@
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f4;
+  padding: 20px;
 }
 
-h1 {
-  text-align: center;
+.back-link {
+  display: block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #6a5acd;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 10px;
 }

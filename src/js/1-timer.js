@@ -1,69 +1,92 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-// Инициализация flatpickr для выбора даты
-const datetimePicker = document.querySelector('#datetime-picker');
-const startButton = document.querySelector('#startBtn');
+// Элементы интерфейса
+const dateInput = document.getElementById('datetime-picker');
+const startButton = document.querySelector('[data-start]');
+const daysSpan = document.querySelector('[data-days]');
+const hoursSpan = document.querySelector('[data-hours]');
+const minutesSpan = document.querySelector('[data-minutes]');
+const secondsSpan = document.querySelector('[data-seconds]');
 
 let userSelectedDate = null;
+let timerInterval = null;
 
-// Настройки для flatpickr
-flatpickr(datetimePicker, {
+// Настройки Flatpickr
+const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    userSelectedDate = selectedDates[0];
-    if (userSelectedDate <= new Date()) {
-      alert('Please choose a date in the future');
+    const selectedDate = selectedDates[0];
+
+    if (selectedDate <= new Date()) {
+      iziToast.error({
+        title: 'Ошибка',
+        message: 'Выберите дату в будущем',
+        position: 'topRight',
+      });
       startButton.disabled = true;
+      userSelectedDate = null;
     } else {
       startButton.disabled = false;
+      userSelectedDate = selectedDate;
     }
   },
-});
+};
 
-// Обработчик нажатия на кнопку start
-startButton.addEventListener('click', () => {
+// Инициализация Flatpickr
+flatpickr(dateInput, options);
+
+// Функция запуска таймера
+function startTimer() {
+  if (!userSelectedDate) return;
+
   startButton.disabled = true;
-  datetimePicker.disabled = true;
+  dateInput.disabled = true;
 
-  const timerInterval = setInterval(() => {
-    const timeRemaining = userSelectedDate - new Date();
-    if (timeRemaining <= 0) {
+  timerInterval = setInterval(() => {
+    const now = new Date().getTime();
+    const timeLeft = userSelectedDate.getTime() - now;
+
+    if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      document.querySelector('#days').textContent = '00';
-      document.querySelector('#hours').textContent = '00';
-      document.querySelector('#minutes').textContent = '00';
-      document.querySelector('#seconds').textContent = '00';
+      updateTimerDisplay(0, 0, 0, 0);
+      dateInput.disabled = false;
+      startButton.disabled = true;
       return;
     }
 
-    const { days, hours, minutes, seconds } = convertMs(timeRemaining);
-    document.querySelector('#days').textContent = addLeadingZero(days);
-    document.querySelector('#hours').textContent = addLeadingZero(hours);
-    document.querySelector('#minutes').textContent = addLeadingZero(minutes);
-    document.querySelector('#seconds').textContent = addLeadingZero(seconds);
+    const { days, hours, minutes, seconds } = convertMs(timeLeft);
+    updateTimerDisplay(days, hours, minutes, seconds);
   }, 1000);
-});
+}
 
-// Функция для преобразования времени
+// Функция обновления интерфейса таймера
+function updateTimerDisplay(days, hours, minutes, seconds) {
+  daysSpan.textContent = String(days).padStart(2, '0');
+  hoursSpan.textContent = String(hours).padStart(2, '0');
+  minutesSpan.textContent = String(minutes).padStart(2, '0');
+  secondsSpan.textContent = String(seconds).padStart(2, '0');
+}
+
+// Функция конвертации миллисекунд
 function convertMs(ms) {
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
 
-  const days = Math.floor(ms / day);
-  const hours = Math.floor((ms % day) / hour);
-  const minutes = Math.floor((ms % hour) / minute);
-  const seconds = Math.floor((ms % minute) / second);
-
-  return { days, hours, minutes, seconds };
+  return {
+    days: Math.floor(ms / day),
+    hours: Math.floor((ms % day) / hour),
+    minutes: Math.floor(((ms % day) % hour) / minute),
+    seconds: Math.floor((((ms % day) % hour) % minute) / second),
+  };
 }
 
-// Функция для добавления ведущего нуля
-function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
-}
+// Назначаем обработчик на кнопку "Start"
+startButton.addEventListener('click', startTimer);
